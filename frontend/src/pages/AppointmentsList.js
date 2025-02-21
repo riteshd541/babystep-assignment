@@ -9,7 +9,7 @@ function AppointmentsList() {
 
   useEffect(() => {
     axios
-      .get("https://babystep-backend.onrender.com//appointments") // Adjust backend API route if needed
+      .get("https://babystep-backend.onrender.com/appointments")
       .then((res) => setAppointments(res.data))
       .catch((err) => console.error("Error fetching appointments:", err));
   }, []);
@@ -28,6 +28,10 @@ function AppointmentsList() {
                 <Typography variant="h6">{appointment.doctorName}</Typography>
                 <Typography>Date: {appointment.date}</Typography>
                 <Typography>Time Slot: {appointment.timeSlot}</Typography>
+                <Typography>Patient: {appointment.patientName}</Typography>
+                <Typography>Type: {appointment.appointmentType}</Typography>
+                <Typography>Notes: {appointment.notes}</Typography>
+                <Typography>Contact: {appointment.contactNo}</Typography>
               </CardContent>
             </Card>
           ))

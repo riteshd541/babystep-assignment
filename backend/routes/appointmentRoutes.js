@@ -6,9 +6,10 @@ const router = express.Router();
 // Get all appointments
 router.get("/", async (req, res) => {
   try {
-    const appointments = await Appointment.find();
+    const appointments = await Appointment.find({}, "-__v");
     res.json(appointments);
   } catch (error) {
+    console.error("Error fetching appointments:", error);
     res.status(500).json({ error: "Failed to fetch appointments" });
   }
 });
@@ -16,10 +17,29 @@ router.get("/", async (req, res) => {
 // Book a new appointment
 router.post("/", async (req, res) => {
   try {
-    const { doctorId, doctorName, date, timeSlot } = req.body;
+    const {
+      doctorId,
+      doctorName,
+      date,
+      timeSlot,
+      patientName,
+      appointmentType,
+      notes,
+      contactNo,
+    } = req.body;
 
-    if (!doctorId || !doctorName || !date || !timeSlot) {
-      return res.status(400).json({ error: "All fields are required" });
+    if (
+      !doctorId ||
+      !doctorName ||
+      !date ||
+      !timeSlot ||
+      !patientName ||
+      !contactNo
+    ) {
+      return res.status(400).json({
+        error:
+          "Doctor, Date, Time Slot, Patient Name, and Contact No are required.",
+      });
     }
 
     const doctor = await Doctor.findById(doctorId);
@@ -27,27 +47,30 @@ router.post("/", async (req, res) => {
       return res.status(404).json({ error: "Doctor not found" });
     }
 
-    // Fetch existing booked slots
     const bookedAppointments = await Appointment.find({
       doctorId,
       date,
       timeSlot,
     });
-
     if (bookedAppointments.length >= 5) {
       return res.status(400).json({ error: "Time slot fully booked" });
     }
 
-    // Create new appointment
+    // Create and log the appointment before saving
     const newAppointment = new Appointment({
       doctorId,
       doctorName,
       date,
       timeSlot,
+      patientName,
+      appointmentType,
+      notes,
+      contactNo,
     });
-    await newAppointment.save();
 
-    res.status(201).json({ message: "Appointment booked successfully!" });
+    const savedAppointment = await newAppointment.save();
+
+    res.status(201).json(savedAppointment);
   } catch (error) {
     res.status(500).json({ error: "Failed to book appointment" });
   }

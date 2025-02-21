@@ -7,6 +7,7 @@ import {
   Button,
   Box,
   Grid,
+  TextField,
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -20,6 +21,11 @@ function DoctorsList() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [timeSlots, setTimeSlots] = useState([]);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState("");
+  const [patientName, setPatientName] = useState("");
+  const [appointmentType, setAppointmentType] = useState("");
+  const [notes, setNotes] = useState("");
+  const [contactNo, setContactNo] = useState("");
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,8 +48,15 @@ function DoctorsList() {
   };
 
   const handleConfirmAppointment = () => {
-    if (!selectedDoctor || !selectedDate || !selectedTimeSlot) {
-      alert("Please select a doctor, date, and time slot!");
+    if (
+      !selectedDoctor ||
+      !selectedDate ||
+      !selectedTimeSlot ||
+      !patientName ||
+      !appointmentType ||
+      !contactNo
+    ) {
+      alert("Please fill in all fields!");
       return;
     }
 
@@ -52,6 +65,10 @@ function DoctorsList() {
       doctorName: selectedDoctor.name,
       date: selectedDate.format("YYYY-MM-DD"),
       timeSlot: selectedTimeSlot,
+      patientName,
+      appointmentType,
+      notes,
+      contactNo,
     };
 
     axios
@@ -151,14 +168,43 @@ function DoctorsList() {
           )}
 
           {selectedTimeSlot && (
-            <Button
-              variant="contained"
-              color="primary"
-              className="confirm-btn"
-              onClick={handleConfirmAppointment}
-            >
-              Confirm Appointment
-            </Button>
+            <>
+              <TextField
+                label="Patient Name"
+                fullWidth
+                value={patientName}
+                onChange={(e) => setPatientName(e.target.value)}
+              />
+              <TextField
+                label="Appointment Type"
+                fullWidth
+                value={appointmentType}
+                onChange={(e) => setAppointmentType(e.target.value)}
+              />
+              <TextField
+                label="Notes"
+                fullWidth
+                multiline
+                rows={2}
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+              />
+              <TextField
+                label="Contact Number"
+                fullWidth
+                value={contactNo}
+                onChange={(e) => setContactNo(e.target.value)}
+              />
+
+              <Button
+                variant="contained"
+                color="primary"
+                className="confirm-btn"
+                onClick={handleConfirmAppointment}
+              >
+                Confirm Appointment
+              </Button>
+            </>
           )}
         </Box>
       )}
