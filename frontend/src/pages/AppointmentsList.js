@@ -9,7 +9,7 @@ function AppointmentsList() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/appointments") // Adjust backend API route if needed
+      .get("https://babystep-backend.onrender.com//appointments") // Adjust backend API route if needed
       .then((res) => setAppointments(res.data))
       .catch((err) => console.error("Error fetching appointments:", err));
   }, []);

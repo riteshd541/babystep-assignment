@@ -24,7 +24,7 @@ function DoctorsList() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/doctors")
+      .get("https://babystep-backend.onrender.com/doctors")
       .then((res) => setDoctors(res.data));
   }, []);
 
@@ -55,7 +55,10 @@ function DoctorsList() {
     };
 
     axios
-      .post("http://localhost:5000/appointments", appointmentData)
+      .post(
+        "https://babystep-backend.onrender.com/appointments",
+        appointmentData
+      )
       .then(() => alert("Appointment confirmed successfully!"))
       .catch((err) => console.error("Error booking appointment:", err));
   };

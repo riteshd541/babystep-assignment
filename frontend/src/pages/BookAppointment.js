@@ -10,12 +10,12 @@ function BookAppointment() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/doctors/${id}`)
+      .get(`https://babystep-backend.onrender.com/doctors/${id}`)
       .then((res) => setDoctor(res.data));
   }, [id]);
 
   const handleSubmit = () => {
-    axios.post("http://localhost:5000/appointments", {
+    axios.post("https://babystep-backend.onrender.com/appointments", {
       doctorId: id,
       date,
       patientName,
