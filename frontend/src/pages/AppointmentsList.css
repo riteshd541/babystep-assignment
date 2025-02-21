@@ -1,7 +1,7 @@
 .container {
   max-width: 800px;
-  margin: 40px auto;
   padding: 20px;
+  margin: 0 auto;
   background: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -10,40 +10,33 @@
 .heading {
   text-align: center;
   color: #333;
-  margin-bottom: 20px;
+  margin-bottom: 30px !important;
   font-weight: bold;
 }
 
 .appointments-grid {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 20px;
 }
 
-.appointment-card {
+.doctor-card {
   background: white;
   padding: 15px;
   border-radius: 8px;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
-  transition: transform 0.2s ease-in-out;
 }
 
-.appointment-card:hover {
-  transform: scale(1.02);
-}
-
-.appointment-card .MuiTypography-h6 {
+.doctor-name {
   font-weight: bold;
   color: #1976d2;
+  margin-bottom: 10px;
 }
 
-.appointment-card .MuiTypography-body1 {
-  color: #555;
-}
-
-.no-appointments {
-  text-align: center;
-  color: #777;
-  font-size: 16px;
-  margin-top: 20px;
+.patient-details-card {
+  margin-top: 10px;
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-radius: 6px;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
 }

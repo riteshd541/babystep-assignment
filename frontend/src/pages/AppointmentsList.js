@@ -14,6 +14,16 @@ function AppointmentsList() {
       .catch((err) => console.error("Error fetching appointments:", err));
   }, []);
 
+  // Grouping appointments by doctorName
+  const groupedAppointments = appointments.reduce((acc, appointment) => {
+    const { doctorName } = appointment;
+    if (!acc[doctorName]) {
+      acc[doctorName] = [];
+    }
+    acc[doctorName].push(appointment);
+    return acc;
+  }, {});
+
   return (
     <Box className="container">
       <Typography variant="h4" className="heading">
@@ -21,22 +31,43 @@ function AppointmentsList() {
       </Typography>
 
       <Box className="appointments-grid">
-        {appointments.length > 0 ? (
-          appointments.map((appointment) => (
-            <Card key={appointment._id} className="appointment-card">
+        {Object.keys(groupedAppointments).length > 0 ? (
+          Object.keys(groupedAppointments).map((doctorName) => (
+            <Card key={doctorName} className="doctor-card">
               <CardContent>
-                <Typography variant="h6">{appointment.doctorName}</Typography>
-                <Typography>Date: {appointment.date}</Typography>
-                <Typography>Time Slot: {appointment.timeSlot}</Typography>
-                <Typography>Patient: {appointment.patientName}</Typography>
-                <Typography>Type: {appointment.appointmentType}</Typography>
-                <Typography>Notes: {appointment.notes}</Typography>
-                <Typography>Contact: {appointment.contactNo}</Typography>
+                {/* Doctor's Name */}
+                <Typography variant="h5" className="doctor-name">
+                  {doctorName}
+                </Typography>
+
+                {/* List of Patients for this Doctor */}
+                {groupedAppointments[doctorName].map((appointment) => (
+                  <Card
+                    key={appointment._id}
+                    variant="outlined"
+                    className="patient-details-card"
+                  >
+                    <CardContent>
+                      <Typography>Date: {appointment.date}</Typography>
+                      <Typography>Time Slot: {appointment.timeSlot}</Typography>
+                      <Typography>
+                        Patient: {appointment.patientName}
+                      </Typography>
+                      <Typography>
+                        Type: {appointment.appointmentType}
+                      </Typography>
+                      <Typography>Notes: {appointment.notes}</Typography>
+                      <Typography>Contact: {appointment.contactNo}</Typography>
+                    </CardContent>
+                  </Card>
+                ))}
               </CardContent>
             </Card>
           ))
         ) : (
-          <Typography>No appointments booked yet.</Typography>
+          <Typography className="no-appointments">
+            No appointments booked yet.
+          </Typography>
         )}
       </Box>
     </Box>

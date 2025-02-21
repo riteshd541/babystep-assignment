@@ -9,6 +9,7 @@ import {
   Grid,
   TextField,
 } from "@mui/material";
+import dayjs from "dayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -76,7 +77,10 @@ function DoctorsList() {
         "https://babystep-backend.onrender.com/appointments",
         appointmentData
       )
-      .then(() => alert("Appointment confirmed successfully!"))
+      .then(
+        () => alert("Appointment confirmed successfully!"),
+        navigate("/appointments")
+      )
       .catch((err) => console.error("Error booking appointment:", err));
   };
 
@@ -132,12 +136,14 @@ function DoctorsList() {
           >
             Back to Doctor List
           </Button>
-          <Typography variant="h5">
+          <Typography style={{ marginBottom: "1rem" }} variant="h5">
             Book an Appointment with {selectedDoctor.name}
           </Typography>
 
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
+              margin="dense"
+              minDate={dayjs().add(1, "day")}
               label="Select a date"
               value={selectedDate}
               onChange={handleDateChange}
@@ -170,30 +176,34 @@ function DoctorsList() {
           {selectedTimeSlot && (
             <>
               <TextField
+                margin="dense"
                 label="Patient Name"
                 fullWidth
                 value={patientName}
                 onChange={(e) => setPatientName(e.target.value)}
               />
               <TextField
+                margin="dense"
                 label="Appointment Type"
                 fullWidth
                 value={appointmentType}
                 onChange={(e) => setAppointmentType(e.target.value)}
               />
               <TextField
+                margin="dense"
+                label="Contact Number"
+                fullWidth
+                value={contactNo}
+                onChange={(e) => setContactNo(e.target.value)}
+              />
+              <TextField
+                margin="dense"
                 label="Notes"
                 fullWidth
                 multiline
                 rows={2}
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
-              />
-              <TextField
-                label="Contact Number"
-                fullWidth
-                value={contactNo}
-                onChange={(e) => setContactNo(e.target.value)}
               />
 
               <Button
