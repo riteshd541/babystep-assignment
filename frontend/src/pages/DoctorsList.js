@@ -77,10 +77,12 @@ function DoctorsList() {
         "https://babystep-backend.onrender.com/appointments",
         appointmentData
       )
-      .then(
-        () => alert("Appointment confirmed successfully!"),
-        navigate("/appointments")
-      )
+      .then(() => {
+        alert(
+          "Appointment confirmed successfully! Redirecting you to appointments section..."
+        );
+        navigate("/appointments");
+      })
       .catch((err) => console.error("Error booking appointment:", err));
   };
 
